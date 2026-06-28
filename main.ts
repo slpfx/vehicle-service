@@ -3,7 +3,6 @@ import { VehicleController } from './src/controllers/vehicleController.js';
 import { VehicleService } from './src/services/vehicleService.js';
 import pino from 'pino';
 import { limiter } from './src/middleware/rateLimiter.js';
-
 export const logger = pino({
   level: 'debug',
 });

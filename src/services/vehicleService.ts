@@ -1,5 +1,6 @@
 import { prisma } from '../lib/prisma.js';
 import type { VehicleRequestBody } from '../types/vehicleTypes.js';
+import { logger } from '../../main.js';
 
 export class VehicleService {
   async createVehicle(data: VehicleRequestBody) {
@@ -12,19 +13,32 @@ export class VehicleService {
     });
   }
 
-  getAllUserVehicles() {
-    console.log('All user Vehicles');
+  async getAllUserVehicles() {
+    logger.info('GET ALL USER VEHICLES');
+    const vehicles = await prisma.vihecle.findMany();
+    return vehicles;
   }
 
-  getUserVehicleById(id: number) {
-    console.log('Vehicle under id: ', id);
+  async getUserVehicleById(id: number) {
+    logger.info('GET VEHICLE BY ID');
+
+    const vehicle = await prisma.vihecle.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    return vehicle;
   }
 
-  changeVehicleData(id: number, make?: string, model?: string, year?: number) {
-    console.log('vehicle under id: ', id, ' has been changed');
+  async changeVehicleData(id: number, data: Partial<VehicleRequestBody>) {
+    await prisma.vihecle.update({ where: { id: id }, data });
   }
 
-  removeUserVehicle(id: number) {
-    console.log('vehicle under id: ', id, ' has been removed');
+  async removeUserVehicle(id: number) {
+    await prisma.vihecle.delete({
+      where: {
+        id: id,
+      },
+    });
   }
 }

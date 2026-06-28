@@ -14,7 +14,6 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
-    "@types/express": "^5.0.6",
     "@types/node": "^26.0.1",
     "dotenv": "^17.4.2",
     "expres": "^0.0.5",
@@ -22,10 +21,13 @@
     "express-rate-limit": "^8.5.2",
     "pg": "^8.22.0",
     "pino": "^10.3.1",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
     "@types/pg": "^8.20.0",
     "eslint": "^10.6.0",
     "eslint-config-xo": "^0.55.0",
