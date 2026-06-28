@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Vihecle" ALTER COLUMN "model" DROP NOT NULL,
+ALTER COLUMN "make" DROP NOT NULL;

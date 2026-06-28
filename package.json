@@ -1,0 +1,40 @@
+{
+  "name": "vihecle-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx --watch main.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.0.1",
+    "dotenv": "^17.4.2",
+    "expres": "^0.0.5",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
+    "pg": "^8.22.0",
+    "pino": "^10.3.1",
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/pg": "^8.20.0",
+    "eslint": "^10.6.0",
+    "eslint-config-xo": "^0.55.0",
+    "globals": "^17.7.0",
+    "jiti": "^2.7.0",
+    "prettier": "^3.9.0",
+    "prisma": "^7.8.0",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.62.0"
+  }
+}
