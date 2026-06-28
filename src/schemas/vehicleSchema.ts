@@ -5,3 +5,5 @@ export const vehicleSchema = z.object({
   model: z.string().min(3).optional(),
   year: z.number().min(1886).max(2026).optional(),
 });
+
+export const partialVehicleSchema = vehicleSchema.partial();

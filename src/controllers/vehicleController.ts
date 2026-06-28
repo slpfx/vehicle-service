@@ -3,7 +3,10 @@ import type { VehicleRequestBody } from '../types/vehicleTypes.js';
 import { VehicleService } from '../services/vehicleService.js';
 import { logger } from '../../main.js';
 import { ValidateVehicleData } from '../middleware/vehicleDataValidation.js';
-import { vehicleSchema } from '../schemas/vehicleSchema.js';
+import {
+  partialVehicleSchema,
+  vehicleSchema,
+} from '../schemas/vehicleSchema.js';
 import { createNumericId } from '../utils/createNumericId.js';
 
 export class VehicleController {
@@ -36,50 +39,66 @@ export class VehicleController {
     );
   }
   private GETALL() {
-    this.router.get('/', async (req: Request, res: Response) => {
-      try {
-        const vehicles = await this.service.getAllUserVehicles();
-        res.status(200).json({ message: 'Success', data: vehicles });
-      } catch (err: unknown) {
-        res.status(500).json({ message: 'failed to return vehicles' });
-        logger.error(err, 'Can not return all vehicles');
-      }
-    });
+    this.router.get(
+      '/',
+      ValidateVehicleData(partialVehicleSchema),
+      async (req: Request, res: Response) => {
+        try {
+          const vehicles = await this.service.getAllUserVehicles();
+          res.status(200).json({ message: 'Success', data: vehicles });
+        } catch (err: unknown) {
+          res.status(500).json({ message: 'failed to return vehicles' });
+          logger.error(err, 'Can not return all vehicles');
+        }
+      },
+    );
   }
   private GET() {
-    this.router.get('/:id', async (req: Request, res: Response) => {
-      try {
-        const id = createNumericId(req, res);
-        if (!id) return res.status(400).json({ message: 'Invalid id' });
-        const vehicle = await this.service.getUserVehicleById(id);
-        return res.json(vehicle);
-      } catch (err: unknown) {
-        res.status(500).json({ message: 'Failed to fetch data', error: err });
-      }
-    });
+    this.router.get(
+      '/:id',
+      ValidateVehicleData(partialVehicleSchema),
+      async (req: Request, res: Response) => {
+        try {
+          const id = createNumericId(req, res);
+          if (!id) return res.status(400).json({ message: 'Invalid id' });
+          const vehicle = await this.service.getUserVehicleById(id);
+          return res.json(vehicle);
+        } catch (err: unknown) {
+          res.status(500).json({ message: 'Failed to fetch data', error: err });
+        }
+      },
+    );
   }
 
   private PUT() {
-    this.router.put('/:id', async (req: Request, res: Response) => {
-      try {
-        const id = createNumericId(req, res);
-        if (!id) return res.status(400).json({ message: 'Invalid id' });
-        await this.service.changeVehicleData(id, req.body);
-        return res.status(200).json({ message: 'Vehicle updated' });
-      } catch (err: unknown) {
-        res
-          .status(500)
-          .json({ message: 'Failed to update vehicle data', error: err });
-      }
-    });
+    this.router.put(
+      '/:id',
+      ValidateVehicleData(partialVehicleSchema),
+      async (req: Request, res: Response) => {
+        try {
+          const id = createNumericId(req, res);
+          if (!id) return res.status(400).json({ message: 'Invalid id' });
+          await this.service.changeVehicleData(id, req.body);
+          return res.status(200).json({ message: 'Vehicle updated' });
+        } catch (err: unknown) {
+          res
+            .status(500)
+            .json({ message: 'Failed to update vehicle data', error: err });
+        }
+      },
+    );
   }
 
   private DELETE() {
-    this.router.delete('/:id', (req: Request, res: Response) => {
-      const id = createNumericId(req, res);
-      if (typeof id !== 'number') return;
-      this.service.removeUserVehicle(id);
-    });
+    this.router.delete(
+      '/:id',
+      ValidateVehicleData(partialVehicleSchema),
+      (req: Request, res: Response) => {
+        const id = createNumericId(req, res);
+        if (typeof id !== 'number') return;
+        this.service.removeUserVehicle(id);
+      },
+    );
   }
 
   public getRouter() {
