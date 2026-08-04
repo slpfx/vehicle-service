@@ -17,4 +17,5 @@ model Vihecle{
   make String? @default("unknown")
   model String? @default("unknown")
   year Int?
+  owner Int
 }

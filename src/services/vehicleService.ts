@@ -3,23 +3,24 @@ import type { VehicleRequestBody } from '../types/vehicleTypes.js';
 import { logger } from '../../main.js';
 
 export class VehicleService {
-  async createVehicle(data: VehicleRequestBody) {
+  static async createVehicle(data: VehicleRequestBody) {
     await prisma.vihecle.create({
       data: {
         model: data.model,
         make: data.make,
         year: data.year,
+        owner: data.owner,
       },
     });
   }
 
-  async getAllUserVehicles() {
+  static async getAllUserVehicles(owner: number) {
     logger.info('GET ALL USER VEHICLES');
-    const vehicles = await prisma.vihecle.findMany();
+    const vehicles = await prisma.vihecle.findMany({ where: { owner: owner } });
     return vehicles;
   }
 
-  async getUserVehicleById(id: number) {
+  static async getUserVehicleById(id: number) {
     logger.info('GET VEHICLE BY ID');
 
     const vehicle = await prisma.vihecle.findUnique({
@@ -30,11 +31,14 @@ export class VehicleService {
     return vehicle;
   }
 
-  async changeVehicleData(id: number, data: Partial<VehicleRequestBody>) {
+  static async changeVehicleData(
+    id: number,
+    data: Partial<VehicleRequestBody>,
+  ) {
     await prisma.vihecle.update({ where: { id: id }, data });
   }
 
-  async removeUserVehicle(id: number) {
+  static async removeUserVehicle(id: number) {
     await prisma.vihecle.delete({
       where: {
         id: id,
